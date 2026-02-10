@@ -1,0 +1,395 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  /* Tokens */
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #18191a;
+  --muted: rgba(24, 25, 26, 0.7);
+
+  --accent: #2d9cdb;
+  --accent-2: #56ccf2;
+
+  --shadow: 0 15px 25px rgba(0, 0, 0, 0.08), 0 25px 45px rgba(0, 0, 0, 0.08);
+  --ring: 0 0 0 4px rgba(45, 156, 219, 0.25);
+
+  --clock-size: clamp(260px, 72vw, 400px);
+  --clock-border: clamp(7px, 2vw, 12px);
+  --clock-inner-ring: clamp(8px, 2.2vw, 10px);
+  --clock-inset: clamp(14px, 4vw, 20px);
+}
+
+/* Themes (NO CAMBIES data-theme en HTML) */
+body[data-theme="ocean"] {
+  --accent: #2d9cdb;
+  --accent-2: #56ccf2;
+  --ring: 0 0 0 4px rgba(45, 156, 219, 0.25);
+}
+
+body[data-theme="sunset"] {
+  --accent: #f2994a;
+  --accent-2: #eb5757;
+  --ring: 0 0 0 4px rgba(242, 153, 74, 0.25);
+}
+
+body[data-theme="forest"] {
+  --accent: #27ae60;
+  --accent-2: #6fcf97;
+  --ring: 0 0 0 4px rgba(39, 174, 96, 0.25);
+}
+
+/* Page */
+body {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  background: var(--bg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background blobs */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 420px at 15% 10%, rgba(86, 204, 242, 0.30), transparent 60%),
+    radial-gradient(900px 420px at 85% 15%, rgba(45, 156, 219, 0.25), transparent 60%),
+    radial-gradient(900px 420px at 50% 95%, rgba(231, 76, 60, 0.12), transparent 60%);
+  filter: saturate(1.1);
+}
+
+/* Dark mode tokens */
+body.dark {
+  --bg: #111213;
+  --surface: #18191a;
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.75);
+  --shadow: 0 15px 30px rgba(0, 0, 0, 0.35), 0 35px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* Layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+  padding: 28px 18px;
+  width: min(900px, 100%);
+}
+
+
+.topbar {
+  width: min(760px, 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+
+  /* Fallback (por si color-mix no está) */
+  background: rgba(255, 255, 255, 0.65);
+
+  /* Si tu navegador soporta color-mix, esto mejora el look (puede dar warnings en VS Code) */
+  background: color-mix(in oklab, var(--surface) 80%, transparent);
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
+
+  /* Efecto vidrio (Safari necesita prefijo) */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  position: relative;
+  z-index: 1;
+}
+
+/* Topbar en modo oscuro */
+body.dark .topbar {
+  background: rgba(24, 25, 26, 0.65);
+  background: color-mix(in oklab, var(--surface) 80%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Readout */
+.readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: 14px;
+
+  /* Fallback */
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  /* Mejorado (puede dar warning) */
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+
+  min-width: 150px;
+}
+
+body.dark .readout {
+  background: rgba(24, 25, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.readout__time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.6px;
+  font-weight: 650;
+  font-size: 14px;
+}
+
+.readout__date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.brand__name {
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+}
+
+.brand__tag {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Theme switch */
+.theme-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 14px;
+
+  /* Fallback */
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  /* Mejorado (puede dar warning) */
+  background: color-mix(in oklab, var(--surface) 65%, transparent);
+  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+}
+
+body.dark .theme-switch {
+  background: rgba(24, 25, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.theme-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 120ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.theme-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.dark .theme-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.theme-btn.is-active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #0b0c0d;
+}
+
+.theme-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+
+.clock {
+  display: flex;
+  height: var(--clock-size);
+  width: var(--clock-size);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+
+  /* Fallback */
+  background: rgba(255, 255, 255, 0.75);
+
+  /* Mejorado */
+  background: color-mix(in oklab, var(--surface) 88%, transparent);
+
+  box-shadow: var(--shadow);
+  position: relative;
+  z-index: 1;
+
+  /* Fallback border */
+  border: var(--clock-border) solid rgba(0, 0, 0, 0.2);
+  outline: 2px solid rgba(0, 0, 0, 0.10);
+  outline-offset: 4px;
+
+  /* Mejorado */
+  border: var(--clock-border) solid color-mix(in oklab, var(--accent) 55%, var(--text));
+  outline: 2px solid color-mix(in oklab, var(--text) 12%, transparent);
+}
+
+body.dark .clock {
+  background: rgba(24, 25, 26, 0.75);
+}
+
+.clock::after {
+  content: "";
+  position: absolute;
+  inset: var(--clock-inner-ring);
+  border-radius: 50%;
+  pointer-events: none;
+
+  /* Fallback */
+  border: 1px solid rgba(0, 0, 0, 0.12);
+
+  /* Mejorado */
+  border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+
+  opacity: 0.9;
+}
+
+.label {
+  position: absolute;
+  inset: var(--clock-inset);
+  text-align: center;
+  transform: rotate(calc(var(--i) * (360deg / 12)));
+}
+
+.label span {
+  display: inline-block;
+  font-size: clamp(18px, 5.5vw, 30px);
+  font-weight: 600;
+  color: var(--text);
+  transform: rotate(calc(var(--i) * (-360deg / 12)));
+}
+
+/* Center + hands */
+.indicator {
+  position: absolute;
+  height: clamp(8px, 2.2vw, 10px);
+  width: clamp(8px, 2.2vw, 10px);
+  display: flex;
+  justify-content: center;
+}
+
+.indicator::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  z-index: 100;
+  background: var(--text);
+  border: clamp(3px, 1vw, 4px) solid var(--accent);
+}
+
+.hand {
+  position: absolute;
+  height: calc(var(--clock-size) * 0.325);
+  width: clamp(3px, 0.9vw, 4px);
+  bottom: 0;
+  border-radius: 25px;
+  transform-origin: bottom;
+  background: var(--accent);
+  transition: transform 120ms linear;
+}
+
+.hand.minute {
+  height: calc(var(--clock-size) * 0.30);
+  width: clamp(4px, 1.1vw, 5px);
+  background: var(--text);
+}
+
+.hand.hour {
+  height: calc(var(--clock-size) * 0.25);
+  width: clamp(6px, 1.6vw, 8px);
+  background: var(--text);
+}
+
+/* =========================
+   Botón modo oscuro
+========================= */
+.mode-switch {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+
+  color: var(--surface);
+  background: linear-gradient(135deg, var(--text), var(--accent));
+
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  border: none;
+}
+
+.mode-switch:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .readout {
+    align-items: flex-start;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
