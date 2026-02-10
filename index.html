@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reloj Analógico</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-theme="ocean">
+  <main class="container">
+    <header class="topbar">
+      <div class="readout">
+        <div class="readout__time" id="digital-time">--:--:--</div>
+        <div class="readout__date" id="digital-date">---</div>
+      </div>
+
+      <div class="brand">
+        <div class="brand__name">Reloj Analógico</div>
+        <div class="brand__tag">CSS + JS</div>
+      </div>
+
+      <div class="controls">
+        <div class="theme-switch" aria-label="Cambiar tema">
+          <!-- OJO: no cambies los data-theme -->
+          <button class="theme-btn is-active" data-theme="ocean" type="button">Océano</button>
+          <button class="theme-btn" data-theme="sunset" type="button">Atardecer</button>
+          <button class="theme-btn" data-theme="forest" type="button">Bosque</button>
+        </div>
+
+        <button class="mode-switch" type="button" tabindex="0">Modo oscuro</button>
+      </div>
+    </header>
+
+    <section class="clock" aria-label="Reloj">
+      <!-- Números (con variable --i para rotación) -->
+      <div class="label" style="--i:1"><span>1</span></div>
+      <div class="label" style="--i:2"><span>2</span></div>
+      <div class="label" style="--i:3"><span>3</span></div>
+      <div class="label" style="--i:4"><span>4</span></div>
+      <div class="label" style="--i:5"><span>5</span></div>
+      <div class="label" style="--i:6"><span>6</span></div>
+      <div class="label" style="--i:7"><span>7</span></div>
+      <div class="label" style="--i:8"><span>8</span></div>
+      <div class="label" style="--i:9"><span>9</span></div>
+      <div class="label" style="--i:10"><span>10</span></div>
+      <div class="label" style="--i:11"><span>11</span></div>
+      <div class="label" style="--i:12"><span>12</span></div>
+
+      <!-- Manecillas -->
+      <div class="indicator">
+        <div class="hand hour"></div>
+        <div class="hand minute"></div>
+        <div class="hand second"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
