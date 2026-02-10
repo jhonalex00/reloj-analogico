@@ -3,37 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reloj Analógico</title>
+  <title>Reloj Mundial</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body data-theme="ocean">
+
   <main class="container">
+
+    <!-- =====================
+         HEADER / CONTROLES
+    ====================== -->
     <header class="topbar">
+
+      <!-- Hora digital -->
       <div class="readout">
         <div class="readout__time" id="digital-time">--:--:--</div>
         <div class="readout__date" id="digital-date">---</div>
       </div>
 
+      <!-- Marca -->
       <div class="brand">
-        <div class="brand__name">Reloj Analógico</div>
+        <div class="brand__name">Reloj Mundial</div>
         <div class="brand__tag">CSS + JS</div>
       </div>
 
+      <!-- Controles -->
       <div class="controls">
+
+        <!-- Selector zona horaria -->
+        <div class="zona-switch">
+          <label class="zona-switch__label" for="zona">Zona</label>
+          <select id="zona" class="zona-switch__select">
+            <!-- JS rellena -->
+          </select>
+        </div>
+
+        <!-- Temas -->
         <div class="theme-switch" aria-label="Cambiar tema">
-          <!-- OJO: no cambies los data-theme -->
           <button class="theme-btn is-active" data-theme="ocean" type="button">Océano</button>
           <button class="theme-btn" data-theme="sunset" type="button">Atardecer</button>
           <button class="theme-btn" data-theme="forest" type="button">Bosque</button>
         </div>
 
-        <button class="mode-switch" type="button" tabindex="0">Modo oscuro</button>
+        <!-- Modo oscuro -->
+        <button class="mode-switch" type="button" tabindex="0">
+          Modo oscuro
+        </button>
+
       </div>
+
     </header>
 
+    <!-- =====================
+         RELOJ ANALÓGICO
+    ====================== -->
     <section class="clock" aria-label="Reloj">
-      <!-- Números (con variable --i para rotación) -->
+
       <div class="label" style="--i:1"><span>1</span></div>
       <div class="label" style="--i:2"><span>2</span></div>
       <div class="label" style="--i:3"><span>3</span></div>
@@ -47,15 +73,31 @@
       <div class="label" style="--i:11"><span>11</span></div>
       <div class="label" style="--i:12"><span>12</span></div>
 
-      <!-- Manecillas -->
       <div class="indicator">
         <div class="hand hour"></div>
         <div class="hand minute"></div>
         <div class="hand second"></div>
       </div>
+
     </section>
+
+    <!-- =====================
+         HORA MUNDIAL
+    ====================== -->
+    <section class="hora-mundial" aria-label="Hora mundial">
+
+      <h2 class="hora-mundial__titulo">Hora mundial</h2>
+
+      <div class="hora-mundial__lista" id="world-list">
+        <!-- JS pinta ciudades -->
+      </div>
+
+    </section>
+
   </main>
 
   <script src="script.js"></script>
+
 </body>
 </html>
+
