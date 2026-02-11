@@ -548,4 +548,30 @@ body.dark .zona-switch__select{
     max-width: 100%;
   }
 }
+/* Fondo con imagen dentro del reloj (marca de agua) */
+.clock {
+  position: relative;
+  overflow: hidden; /* ✅ para que la imagen no se salga del círculo */
+}
+
+/* Imagen de fondo */
+.clock::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+
+  background-image: url("img/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.50;           /* ✅ ajusta esto (0.10–0.25) */
+  filter: blur(0px);       /* opcional */
+  transform: scale(1.05);  /* para cubrir bordes */
+
+  z-index: 0;              /* ✅ por detrás */
+  pointer-events: none;
+}
+
 
