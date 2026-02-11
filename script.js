@@ -125,12 +125,37 @@ const get=t=>Number(p.find(x=>x.type===t)?.value||0);
 return{h:get("hour"),m:get("minute"),s:get("second")};
 }
 
+let ultimoSegundo = null;
+
 function actualizarReloj(){
+
 const {h,m,s}=horaZona();
+
+/* ===== SEGUNDERO SIN EFECTO RARO ===== */
+
+if(s===0 && ultimoSegundo===59){
+  $segundo.style.transition="none";
+}else{
+  $segundo.style.transition="transform 120ms linear";
+}
+
+$segundo.style.transform=`rotate(${s*6}deg)`;
+
+/* Reset transición después del salto */
+if(s===0 && ultimoSegundo===59){
+  setTimeout(()=>{
+    $segundo.style.transition="transform 120ms linear";
+  },50);
+}
+
+ultimoSegundo=s;
+
+/* ===== MINUTERO Y HORARIO ===== */
 
 $hora.style.transform=`rotate(${(h%12+m/60)*30}deg)`;
 $minuto.style.transform=`rotate(${(m+s/60)*6}deg)`;
-$segundo.style.transform=`rotate(${s*6}deg)`;
+
+/* ===== DIGITAL ===== */
 
 const ahora=new Date();
 
@@ -142,6 +167,7 @@ $fechaDigital.textContent=new Intl.DateTimeFormat("es-ES",{
 timeZone:zonaActiva,dateStyle:"full"
 }).format(ahora);
 }
+
 
 /* ================= CLIMA ================= */
 
