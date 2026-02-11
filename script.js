@@ -38,6 +38,7 @@ const leer=k=>localStorage.getItem(k);
 const ZONAS=[
 {nombre:"España (Madrid)",zona:"Europe/Madrid",bandera:"🇪🇸"},
 {nombre:"Colombia (Bogotá)",zona:"America/Bogota",bandera:"🇨🇴"},
+{nombre:"Alemania (Berlín)",zona:"Europe/Berlin",bandera:"🇩🇪"},
 {nombre:"México",zona:"America/Mexico_City",bandera:"🇲🇽"},
 {nombre:"Argentina",zona:"America/Argentina/Buenos_Aires",bandera:"🇦🇷"},
 {nombre:"Japón",zona:"Asia/Tokyo",bandera:"🇯🇵"}
@@ -50,24 +51,28 @@ let zonaActiva="Europe/Madrid";
 const CLIMA_POR_ZONA={
 "Europe/Madrid":{lat:40.4168,lon:-3.7038,ciudad:"Madrid"},
 "America/Bogota":{lat:4.7110,lon:-74.0721,ciudad:"Bogotá"},
+"Europe/Berlin":{lat:52.5200,lon:13.4050,ciudad:"Berlín"},
 "America/Mexico_City":{lat:19.4326,lon:-99.1332,ciudad:"CDMX"},
 "America/Argentina/Buenos_Aires":{lat:-34.6037,lon:-58.3816,ciudad:"Buenos Aires"},
 "Asia/Tokyo":{lat:35.6762,lon:139.6503,ciudad:"Tokio"}
 };
 
-/* ================= CIUDADES (SOLO PARA ESPAÑA/COLOMBIA) ================= */
+/* ================= CIUDADES (ES/CO/DE) ================= */
 
 const CIUDADES_CLIMA=[
 {id:"medellin",nombre:"Medellín",lat:6.2442,lon:-75.5812,zona:"America/Bogota"},
+
 {id:"madrid",nombre:"Madrid",lat:40.4168,lon:-3.7038,zona:"Europe/Madrid"},
-/* ✅ Granada ajustada (más centrada) */
 {id:"granada",nombre:"Granada",lat:37.1882,lon:-3.6067,zona:"Europe/Madrid"},
+
+{id:"berlin",nombre:"Berlín",lat:52.5200,lon:13.4050,zona:"Europe/Berlin"},
+{id:"munich",nombre:"Múnich",lat:48.1351,lon:11.5820,zona:"Europe/Berlin"},
 ];
 
 let ciudadActiva="madrid";
 
 /* Zonas que sí usan selector de ciudad */
-const ZONAS_CON_CIUDAD=new Set(["Europe/Madrid","America/Bogota"]);
+const ZONAS_CON_CIUDAD=new Set(["Europe/Madrid","America/Bogota","Europe/Berlin"]);
 
 /* ================= UI ================= */
 
@@ -158,7 +163,6 @@ $climaTemp.textContent="--°C";
 $climaDesc.textContent="Clima no disponible";
 }
 
-/* ✅ Ahora trae temp + sensación + viento + código */
 async function obtenerClimaPorCoords(lat,lon){
 const r=await fetch(
 `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code&timezone=auto`
@@ -172,9 +176,6 @@ code:d.current.weather_code
 };
 }
 
-/* Decide de dónde sale el clima:
-- España/Colombia: por ciudadActiva (selector)
-- Resto: por zonaActiva (país) */
 async function actualizarClima(){
 try{
 let lat,lon,nombre;
@@ -242,14 +243,23 @@ $selectZona.addEventListener("change",e=>{
 aplicarZona(e.target.value,true);
 
 if(ZONAS_CON_CIUDAD.has(zonaActiva)){
+
 if(zonaActiva==="Europe/Madrid"){
 const last=leer("ciudad");
 const esES=last==="madrid"||last==="granada";
 aplicarCiudad(esES?last:"madrid",true);
 }
+
 if(zonaActiva==="America/Bogota"){
 aplicarCiudad("medellin",true);
 }
+
+if(zonaActiva==="Europe/Berlin"){
+const last=leer("ciudad");
+const esDE=last==="berlin"||last==="munich";
+aplicarCiudad(esDE?last:"berlin",true);
+}
+
 }
 
 actualizarClima();
