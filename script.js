@@ -313,4 +313,3 @@ iniciarClima();
 }
 
 iniciarApp();
-
