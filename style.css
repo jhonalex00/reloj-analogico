@@ -504,5 +504,73 @@ body.dark .ciudad-switch__select{
   background: color-mix(in oklab, var(--surface) 85%, transparent);
   border-color: color-mix(in oklab, var(--accent) 55%, transparent);
 }
+/* =========================
+   FIX MÓVIL: no se solapa + selects visibles
+   (PEGAR AL FINAL)
+========================= */
+
+@media (max-width: 520px){
+
+  /* La barra se apila */
+  .topbar{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  /* Cada bloque ocupa toda la fila */
+  .readout,
+  .weather,
+  .brand,
+  .controls{
+    width: 100%;
+  }
+
+  /* Los controles se apilan y no se pisan */
+  .controls{
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  /* Cada control (zona/ciudad/tema/botón) a lo ancho */
+  .zona-switch,
+  .ciudad-switch,
+  .theme-switch,
+  .mode-switch{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* ✅ Lo importante: selects a 100% para que se vean */
+  .zona-switch{
+    display: grid;
+    grid-template-columns: 70px 1fr; /* label + select */
+    align-items: center;
+  }
+  .zona-switch #zona{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ciudad-switch{
+    display: grid;
+    grid-template-columns: 70px 1fr; /* label + select */
+    align-items: center;
+  }
+  .ciudad-switch__select{
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Botones de tema en fila pero que no revienten */
+  .theme-switch{
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .theme-btn{
+    flex: 1 1 30%;
+    text-align: center;
+  }
+}
 
 
