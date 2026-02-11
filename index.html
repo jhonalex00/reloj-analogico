@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -11,9 +11,6 @@
 
   <main class="container">
 
-    <!-- =====================
-         HEADER / CONTROLES
-    ====================== -->
     <header class="topbar">
 
       <!-- Hora digital -->
@@ -22,43 +19,50 @@
         <div class="readout__date" id="digital-date">---</div>
       </div>
 
+      <!-- Clima -->
+      <div class="weather">
+        <div class="weather__icon" id="weather-icon">⛅</div>
+        <div class="weather__info">
+          <div class="weather__temp" id="weather-temp">--°C</div>
+          <div class="weather__desc" id="weather-desc">Cargando clima...</div>
+        </div>
+      </div>
+
       <!-- Marca -->
       <div class="brand">
-        <div class="brand__name">Reloj Mundial</div>
-        <div class="brand__tag">CSS + JS</div>
+        <div class="brand__name"></div>
+        <div class="brand__tag"></div>
       </div>
 
       <!-- Controles -->
       <div class="controls">
 
-        <!-- Selector zona horaria -->
         <div class="zona-switch">
-          <label class="zona-switch__label" for="zona">Zona</label>
-          <select id="zona" class="zona-switch__select">
+          <span id="bandera-actual">🌍</span>
+          <label for="zona">Zona</label>
+          <select id="zona"></select>
+        </div>
+
+        <!-- Selector ciudad (CLIMA) -->
+        <div class="ciudad-switch" aria-label="Seleccionar ciudad para clima">
+          <label class="ciudad-switch__label" for="ciudad">Ciudad</label>
+          <select id="ciudad" class="ciudad-switch__select">
             <!-- JS rellena -->
           </select>
         </div>
 
-        <!-- Temas -->
-        <div class="theme-switch" aria-label="Cambiar tema">
-          <button class="theme-btn is-active" data-theme="ocean" type="button">Océano</button>
-          <button class="theme-btn" data-theme="sunset" type="button">Atardecer</button>
-          <button class="theme-btn" data-theme="forest" type="button">Bosque</button>
+        <div class="theme-switch">
+          <button class="theme-btn is-active" data-theme="ocean">Océano</button>
+          <button class="theme-btn" data-theme="sunset">Atardecer</button>
+          <button class="theme-btn" data-theme="forest">Bosque</button>
         </div>
 
-        <!-- Modo oscuro -->
-        <button class="mode-switch" type="button" tabindex="0">
-          Modo oscuro
-        </button>
+        <button class="mode-switch">Modo oscuro</button>
 
       </div>
-
     </header>
 
-    <!-- =====================
-         RELOJ ANALÓGICO
-    ====================== -->
-    <section class="clock" aria-label="Reloj">
+    <section class="clock">
 
       <div class="label" style="--i:1"><span>1</span></div>
       <div class="label" style="--i:2"><span>2</span></div>
@@ -74,24 +78,9 @@
       <div class="label" style="--i:12"><span>12</span></div>
 
       <div class="indicator">
-  <img src="img/logo.png" class="clock-logo" alt="Logo" />
-  <div class="hand hour"></div>
-  <div class="hand minute"></div>
-  <div class="hand second"></div>
-</div>
-
-
-    </section>
-
-    <!-- =====================
-         HORA MUNDIAL
-    ====================== -->
-    <section class="hora-mundial" aria-label="Hora mundial">
-
-      <h2 class="hora-mundial__titulo">Hora mundial</h2>
-
-      <div class="hora-mundial__lista" id="world-list">
-        <!-- JS pinta ciudades -->
+        <div class="hand hour"></div>
+        <div class="hand minute"></div>
+        <div class="hand second"></div>
       </div>
 
     </section>
