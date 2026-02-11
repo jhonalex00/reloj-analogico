@@ -45,6 +45,7 @@ const ZONAS=[
 ];
 
 let zonaActiva="Europe/Madrid";
+let rafId=null;
 
 /* ================= CLIMA POR ZONA (PAÍSES) ================= */
 
@@ -112,7 +113,7 @@ $selectCiudad.style.opacity=usaCiudad?"1":"0.5";
 $selectCiudad.style.pointerEvents=usaCiudad?"auto":"none";
 }
 
-/* ================= RELOJ ================= */
+/* ================= TIEMPO (POR ZONA) ================= */
 
 function horaZona(){
 const p=new Intl.DateTimeFormat("es-ES",{
@@ -125,40 +126,12 @@ const get=t=>Number(p.find(x=>x.type===t)?.value||0);
 return{h:get("hour"),m:get("minute"),s:get("second")};
 }
 
-let ultimoSegundo = null;
+/* ================= RELOJ TIPO ROLEX (SWEEP) ================= */
 
-function actualizarReloj(){
-
-const {h,m,s}=horaZona();
-
-/* ===== SEGUNDERO SIN EFECTO RARO ===== */
-
-if(s===0 && ultimoSegundo===59){
-  $segundo.style.transition="none";
-}else{
-  $segundo.style.transition="transform 120ms linear";
-}
-
-$segundo.style.transform=`rotate(${s*6}deg)`;
-
-/* Reset transición después del salto */
-if(s===0 && ultimoSegundo===59){
-  setTimeout(()=>{
-    $segundo.style.transition="transform 120ms linear";
-  },50);
-}
-
-ultimoSegundo=s;
-
-/* ===== MINUTERO Y HORARIO ===== */
-
-$hora.style.transform=`rotate(${(h%12+m/60)*30}deg)`;
-$minuto.style.transform=`rotate(${(m+s/60)*6}deg)`;
-
-/* ===== DIGITAL ===== */
-
+function actualizarRelojRolex(){
 const ahora=new Date();
 
+// digital (zona activa)
 $horaDigital.textContent=new Intl.DateTimeFormat("es-ES",{
 timeZone:zonaActiva,timeStyle:"medium"
 }).format(ahora);
@@ -166,8 +139,22 @@ timeZone:zonaActiva,timeStyle:"medium"
 $fechaDigital.textContent=new Intl.DateTimeFormat("es-ES",{
 timeZone:zonaActiva,dateStyle:"full"
 }).format(ahora);
-}
 
+// h/m/s en zona + ms reales
+const {h,m,s}=horaZona();
+const ms=ahora.getMilliseconds();
+
+// sweep continuo
+const sCont=s + ms/1000;
+const mCont=m + sCont/60;
+const hCont=(h%12) + mCont/60;
+
+$segundo.style.transform=`rotate(${sCont*6}deg)`;
+$minuto.style.transform=`rotate(${mCont*6}deg)`;
+$hora.style.transform=`rotate(${hCont*30}deg)`;
+
+rafId=requestAnimationFrame(actualizarRelojRolex);
+}
 
 /* ================= CLIMA ================= */
 
@@ -318,8 +305,9 @@ iniciarModo();
 iniciarZona();
 iniciarCiudadesClima();
 
-actualizarReloj();
-setInterval(actualizarReloj,1000);
+// ✅ reloj tipo Rolex (sweep)
+if(rafId)cancelAnimationFrame(rafId);
+rafId=requestAnimationFrame(actualizarRelojRolex);
 
 iniciarClima();
 }
