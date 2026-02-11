@@ -572,5 +572,38 @@ body.dark .ciudad-switch__select{
     text-align: center;
   }
 }
+/* =========================
+   FIX SELECT PAÍS MÓVIL
+========================= */
+
+@media (max-width:520px){
+
+  .zona-switch{
+    width:100%;
+    max-width:100%;
+
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:4px;
+  }
+
+  /* El label queda arriba */
+  .zona-switch label{
+    font-size:11px;
+  }
+
+  /* Select ocupa todo el ancho */
+  .zona-switch #zona{
+    width:100%;
+    max-width:100%;
+
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+}
 
 
