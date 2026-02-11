@@ -284,7 +284,7 @@ body.dark .clock {
   border-radius: 25px;
   transform-origin: bottom;
   background: var(--accent);
-  transition: transform 120ms linear;
+  transition: none; /* ✅ para sweep real (Rolex-like) */
 }
 
 .hand.minute {
